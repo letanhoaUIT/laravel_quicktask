@@ -15,6 +15,14 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\CheckAdmin::class,
         ]);
     })
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->web(append:[
+            App\Http\Middleware\Localization::class,
+        ]);
+
+    })
+
+
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
