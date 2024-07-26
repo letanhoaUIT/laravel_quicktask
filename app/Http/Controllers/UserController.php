@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -12,7 +13,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        return view('users.index', [
+            'users' => User::with('tasks')->get(),
+        ]);
     }
 
     /**
@@ -44,7 +47,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -52,7 +55,15 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user->username = $request->name;
+        $user->save();
+
+        // //query builder
+        // DB::table('users')->where('id', $user->id)
+        //     ->update([
+        //         'username' => $request->name,
+        //     ]);
+        // return back();
     }
 
     /**
